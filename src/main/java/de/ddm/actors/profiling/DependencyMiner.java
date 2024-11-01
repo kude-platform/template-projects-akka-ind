@@ -102,7 +102,8 @@ public class DependencyMiner extends AbstractBehavior<DependencyMiner.Message> {
 	private DependencyMiner(ActorContext<Message> context) {
 		super(context);
 		this.discoverNaryDependencies = SystemConfigurationSingleton.get().isHardMode();
-		this.inputFiles = InputConfigurationSingleton.get().getInputFiles();
+		this.inputFiles = Arrays.stream(InputConfigurationSingleton.get().getInputFiles())
+				.filter(file -> file.getName().contains("lineitem") | file.getName().contains("order")).toArray(File[]::new);
 		this.headerLines = new String[this.inputFiles.length][];
 
 		this.inputReaders = new ArrayList<>(inputFiles.length);
