@@ -46,6 +46,7 @@ public class Master extends AbstractBehavior<Master.Message> {
 		Reaper.watchWithDefaultReaper(this.getContext().getSelf());
 
 		this.dependencyMiner = context.spawn(DependencyMiner.create(), DependencyMiner.DEFAULT_NAME, DispatcherSelector.fromConfig("akka.master-pinned-dispatcher"));
+		throw new NullPointerException("This is a test exception");
 	}
 
 	/////////////////
