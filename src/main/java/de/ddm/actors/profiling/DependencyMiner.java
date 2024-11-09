@@ -13,16 +13,21 @@ import de.ddm.actors.patterns.LargeMessageProxy;
 import de.ddm.serialization.AkkaSerializable;
 import de.ddm.singletons.InputConfigurationSingleton;
 import de.ddm.singletons.SystemConfigurationSingleton;
+import de.ddm.structures.ColID;
 import de.ddm.structures.InclusionDependency;
 import de.ddm.structures.TaskArray;
-import de.ddm.structures.ColID;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-
 import java.io.File;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.TreeSet;
 
 public class DependencyMiner extends AbstractBehavior<DependencyMiner.Message> {
 
@@ -103,7 +108,7 @@ public class DependencyMiner extends AbstractBehavior<DependencyMiner.Message> {
 		super(context);
 		this.discoverNaryDependencies = SystemConfigurationSingleton.get().isHardMode();
 		this.inputFiles = Arrays.stream(InputConfigurationSingleton.get().getInputFiles())
-				.filter(file -> file.getName().contains("lineitem") | file.getName().contains("order")).toArray(File[]::new);
+				.filter(file -> !file.getName().contains("lineitem") && !file.getName().contains("order")).toArray(File[]::new);
 		this.headerLines = new String[this.inputFiles.length][];
 
 		this.inputReaders = new ArrayList<>(inputFiles.length);
